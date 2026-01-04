@@ -1,4 +1,4 @@
-# Memory Forensics Library
+# 🕵️‍♂️ Memory Forensics Library
 
 <p align="left">
   <img src="src/assets/BannerMemory.png" height="400px" alt="Memory Forensics Library Banner">
