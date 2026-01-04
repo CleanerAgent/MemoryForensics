@@ -1,30 +1,59 @@
 #include <stdlib.h>
 
-#include <memory_forensics.h>
+#include "mf_types.h"
+#include "internal.h"
 #include "process_internal.h"
 
-/* ============================
- * Public API
- * ============================ */
-
-mf_error_t mf_process_attach(
-    mf_context_t *ctx,
+mf_error_t mf_process_create(
+    struct mf_context *ctx,
     int pid,
-    mf_process_t **process
+    struct mf_process **process
 )
 {
-    if (!ctx || !process || pid <= 0) {
-        return MF_ERR_INVALID_ARGUMENT;
+    struct mf_process *p = calloc(1, sizeof(*p));
+    if (!p) {
+        return MF_ERR_NO_MEMORY;
     }
 
-    return mf_process_create(ctx, pid, process);
+    p->pid = pid;
+    p->ctx = ctx;
+
+    mf_error_t err = mf_process_attach_os(p);
+    if (err != MF_OK) {
+        free(p);
+        return err;
+    }
+
+    *process = p;
+    return MF_OK;
 }
 
-void mf_process_detach(mf_process_t *process)
+void mf_process_destroy(struct mf_process *process)
 {
-    if (!process) {
-        return;
+    if (!process) return;
+
+    mf_process_detach_os(process);
+    free(process);
+}
+
+mf_error_t mf_process_attach_os(struct mf_process *process)
+{
+    if (!process || !process->ctx || !process->ctx->os) {
+        return MF_ERR_INTERNAL;
     }
 
-    mf_process_destroy(process);
+    if (process->ctx->os->attach_process(process) != 0) {
+        return MF_ERR_PROCESS_ACCESS;
+    }
+
+    return MF_OK;
+}
+
+void mf_process_detach_os(struct mf_process *process)
+{
+    if (!process || !process->ctx || !process->ctx->os) return;
+
+    if (process->ctx->os->detach_process) {
+        process->ctx->os->detach_process(process);
+    }
 }

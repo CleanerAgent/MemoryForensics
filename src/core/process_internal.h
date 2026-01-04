@@ -1,12 +1,9 @@
 #ifndef MF_PROCESS_INTERNAL_H
 #define MF_PROCESS_INTERNAL_H
 
-#include "mf_types.h"
 #include "internal.h"
 
-/*
- * Internal interface for process handling.
- */
+/* Internal interface for process handling */
 
 mf_error_t mf_process_create(
     struct mf_context *ctx,

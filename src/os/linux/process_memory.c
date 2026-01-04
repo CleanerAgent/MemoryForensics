@@ -6,9 +6,6 @@
 #include <string.h>
 #include <sys/types.h>
 
-#include "internal.h"
-#include "mf_types.h"
-
 mf_error_t mf_linux_read_memory(
     struct mf_process *process,
     uintptr_t address,
