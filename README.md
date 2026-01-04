@@ -1,7 +1,7 @@
 # 🕵️‍♂️ Memory Forensics Library
 
 <p align="left">
-  <img src="src/assets/BannerMemory.png" height="400px" alt="Memory Forensics Library Banner">
+  <img src="src/assets/BannerMemory.png" height="300px" alt="Memory Forensics Library Banner">
 </p>
 
 A low-level C library for live process memory inspection and runtime integrity analysis.
