@@ -5,6 +5,7 @@
 #include <string.h>
 #include <windows.h>
 
+#define WIN32_LEAN_AND_MEAN
 #define REGION_SIZE_DEFAULT     16
 
 static uint32_t windows_protect_to_perms(DWORD protect) {
